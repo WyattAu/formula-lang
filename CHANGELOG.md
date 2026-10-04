@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning:
 [SemVer](https://semver.org/).
 
+## [0.1.1] — 2026-10-04
+
+### Fixed
+
+- Property suite no longer flaky: round-trip properties assume away the
+  one lossy AST render (a call whose single argument is the omitted-slot
+  marker — see the `Display` docs). First-propagation RNG streams in CI
+  hit the case the local run missed.
+- Regression tests pinned for the two pre-release fuzz findings
+  (iterative-`Drop` leak, render-depth inflation on unary chains).
+- Coverage notes added (`COVERAGE-NOTES.md`); test-count corrections in
+  docs. No library-code changes vs 0.1.0.
+
 ## [0.1.0] — 2026-10-04
 
 Initial release — L0 leaf, zero estate deps, `no_std` + `alloc`.
