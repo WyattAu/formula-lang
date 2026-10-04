@@ -55,7 +55,7 @@ Initial release — L0 leaf, zero estate deps, `no_std` + `alloc`.
 
 ### Quality gates (this release)
 
-- 231 tests (unit + integration + property), all passing.
+- 219 tests (unit + integration + property), all passing.
 - Line coverage **95.6%** (`cargo llvm-cov --all-features`; gate ≥ 90%).
 - `cargo clippy --all-features --all-targets -- -D warnings` clean
   (tier-a deny lints: `unwrap`, `expect`, `panic`, `indexing_slicing`).
