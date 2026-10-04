@@ -16,6 +16,32 @@ use proptest::prelude::*;
 
 pub(crate) const NOW: f64 = 45_123.75;
 
+/// True when the AST has exactly one lossy render case: a call whose
+/// arguments are a *single* omitted slot (`F([omitted])` renders as
+/// `F()`, which re-parses to zero args — the grammar cannot express one
+/// empty slot). Round-trip properties assume this away; see the docs on
+/// `Display for Expr` / [`formula_lang::is_omitted_arg`].
+fn render_faithful(e: &Expr) -> bool {
+    let mut stack = vec![e];
+    while let Some(e) = stack.pop() {
+        match e {
+            Expr::Function { args, .. } => {
+                if args.len() == 1 && is_omitted_arg(&args[0]) {
+                    return false;
+                }
+                stack.extend(args.iter());
+            }
+            Expr::Binary { left, right, .. } => {
+                stack.push(left);
+                stack.push(right);
+            }
+            Expr::Unary { expr, .. } => stack.push(expr),
+            _ => {}
+        }
+    }
+    true
+}
+
 /// Finite float leaf.
 fn number() -> impl Strategy<Value = Expr> {
     (any::<i64>()).prop_map(|i| {
@@ -139,6 +165,7 @@ proptest! {
     #[test]
     fn display_roundtrips_through_parse(s in "[0-9+\\-*/^&=<>%,() A-Za-z:.\"#,]{0,80}") {
         if let Ok(e) = parse(&s) {
+            prop_assume!(render_faithful(&e));
             let out = to_formula(&e);
             match parse(&out) {
                 Ok(e2) => {
@@ -157,6 +184,7 @@ proptest! {
     #[test]
     fn display_is_idempotent(s in "[0-9+\\-*/^&=<>%,() A-Za-z:.\"#,]{0,60}") {
         if let Ok(e) = parse(&s) {
+            prop_assume!(render_faithful(&e));
             let once = to_formula(&e);
             let twice = to_formula(&parse(&once).unwrap());
             prop_assert_eq!(once, twice);
@@ -180,6 +208,7 @@ proptest! {
         e in expr_strategy(5),
         sheet in arb_sheet(),
     ) {
+        prop_assume!(render_faithful(&e));
         let out = to_formula(&e);
         let reparsed = parse(&out).unwrap();
         let a = evaluate_with_clock(&e, &sheet, NOW);

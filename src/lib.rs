@@ -67,9 +67,11 @@
 //! The public AST has no "omitted" variant, so empty argument slots
 //! (`IF(A1,,5)`, `SUM(1,)`) are stored as
 //! [`Expr::Error`]`(`[`ExcelError::Null`]`)` and detected with
-//! [`is_omitted_arg`]. One documented trade-off: a literal `#NULL!` in a
-//! direct argument position is treated as omitted. Outside argument
-//! positions the marker is inert.
+//! [`is_omitted_arg`]. Two documented trade-offs: a literal `#NULL!` in a
+//! direct argument position is treated as omitted, and a call whose
+//! arguments are a *single* omitted slot renders back as `F()` (the
+//! grammar cannot express one empty slot — `F(,)` parses as two). Outside
+//! argument positions the marker is inert.
 //!
 //! # Safety & totality
 //!

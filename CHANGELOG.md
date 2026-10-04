@@ -61,5 +61,6 @@ Initial release — L0 leaf, zero estate deps, `no_std` + `alloc`.
   (tier-a deny lints: `unwrap`, `expect`, `panic`, `indexing_slicing`).
 - `no_std` verified: `thumbv7em-none-eabihf` and native
   `--no-default-features` checks pass (`libm` for transcendentals).
-- Fuzz: ~4.4M combined executions across three targets, no crashes, no
-  leaks (two findings fixed pre-release).
+- Fuzz: ~4.4M combined executions across three targets; three findings
+  fixed pre-release (iterative-Drop leak, render-depth inflation on
+  unary chains, single-omited-argument render documented as lossy).

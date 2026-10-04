@@ -68,6 +68,10 @@ impl fmt::Display for Expr {
                     // The stack pops LIFO, so push args in reverse; each
                     // boundary comma follows its left neighbor. Omitted
                     // slots contribute nothing but keep their boundaries.
+                    // One documented lossy case: a call whose arguments are
+                    // a *single* omitted slot renders as `F()` (zero args)
+                    // — the grammar cannot express one empty slot (`F(,)`
+                    // parses as two). Every other arity round-trips.
                     for (i, a) in args.iter().enumerate().rev() {
                         if !is_omitted_arg(a) {
                             stack.push(Job::Expr {

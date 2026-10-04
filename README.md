@@ -80,7 +80,7 @@ and detected with [`is_omitted_arg`]. One documented trade-off: a literal
 
 | Gate | Status |
 |---|---|
-| Tests | 231 (unit + integration + 500-case properties) |
+| Tests | 219 (unit + integration + 500-case properties) |
 | Coverage | 95.6% lines (`cargo llvm-cov --all-features`, gate ≥ 90%) |
 | Clippy | `-D warnings` clean (tier-a deny lints) |
 | Fuzz | `tokenize`, `parse`, `parse_eval` — clean runs in CI (30 s each) |
