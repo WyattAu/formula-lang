@@ -1,0 +1,66 @@
+[package]
+name = "formula-lang"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.85"
+authors = ["Wyatt Au <wyatt_au@protonmail.com>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/WyattAu/formula-lang"
+homepage = "https://github.com/WyattAu/formula-lang"
+documentation = "https://docs.rs/formula-lang"
+description = "Spreadsheet formula language — tokenizer, Pratt parser, AST, evaluator core. Excel-compatible function semantics."
+readme = "README.md"
+keywords = ["spreadsheet", "formula", "excel", "parser", "evaluator"]
+categories = ["parser-implementations", "no-std"]
+exclude = [".github/", "fuzz/", "supply-chain/"]
+
+# Layer model: docs/layers.md in WyattAu/engineering-standards.
+# L0 — leaf: zero estate-internal dependencies, minimal curated externals.
+[package.metadata.layers]
+tier = "L0"
+
+# Zero runtime estate dependencies. thiserror 2.x is no_std by default.
+# Everything else — the Pratt parser, Excel coercion rules, the 64-function
+# dispatch table, General-format number rendering — is hand-rolled over
+# `core` + `alloc`.
+[dependencies]
+thiserror = { version = "2", default-features = false }
+# Transcendentals and float rounding in `no_std`: core's `f64` methods for
+# these are std-only. libm keeps the crate core-only and — a side benefit —
+# makes every numeric result bit-identical across feature states.
+libm = { version = "0.2", default-features = false }
+
+[features]
+default = ["std"]
+# std-bound surface area: `evaluate` reads the system clock for the volatile
+# functions (TODAY/NOW). no_std builds get the same entry point but a serial
+# of 0.0 — deterministic work must go through `evaluate_with_clock`, which
+# exists in both feature states.
+std = []
+
+[dev-dependencies]
+proptest = "1"
+criterion = "0.7"
+
+[[bench]]
+name = "eval"
+harness = false
+
+[lints.rust]
+missing_docs = "deny"
+unsafe_code = "deny"
+
+# Tier A parser discipline: formula text is hostile input (user-typed, pasted,
+# fuzzed). The lib target never panics on input — every malformed formula
+# resolves to a typed `FormulaError`. The fuzz/dev targets lift these at the
+# file level with justification; the lib target never does.
+[lints.clippy]
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+indexing_slicing = "deny"
+undocumented_unsafe_blocks = "deny"
+
+[profile.release]
+lto = "fat"
+codegen-units = 1

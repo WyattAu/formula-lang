@@ -1,0 +1,6 @@
+/target
+fuzz/target
+fuzz/artifacts
+fuzz/coverage
+Cargo.lock.orig
+*.profraw

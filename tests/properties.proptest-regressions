@@ -1,0 +1,8 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc 9cfa8204ca42ded5afd93ab4f4801b88527a7160697158d62150836c0871a616 # shrinks to n = 0, k = 1
+cc edf486e342a3f8624cb2fecc70fa12f4b2cdeebdab37eed528b89f48de00cb30 # shrinks to e = Unary { op: Neg, expr: Binary { op: Concat, left: Number(0.0), right: Number(0.0) } }, sheet = MapResolver { cells: {} }
