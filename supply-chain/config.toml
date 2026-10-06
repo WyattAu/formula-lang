@@ -149,10 +149,6 @@ criteria = "safe-to-run"
 version = "1.0.107"
 criteria = "safe-to-deploy"
 
-[[exemptions.proc-macro2]]
-version = "1.0.107"
-criteria = "safe-to-deploy"
-
 [[exemptions.proptest]]
 version = "1.11.0"
 criteria = "safe-to-run"
@@ -219,11 +215,7 @@ criteria = "safe-to-run"
 
 [[exemptions.syn]]
 version = "2.0.119"
-criteria = "safe-to-deploy"
-
-[[exemptions.syn]]
-version = "3.0.6"
-criteria = "safe-to-deploy"
+criteria = "safe-to-run"
 
 [[exemptions.syn]]
 version = "3.0.6"
