@@ -1,4 +1,5 @@
 # formula-lang
+[![Estate integration](https://github.com/WyattAu/estate-integration/actions/workflows/ci.yml/badge.svg)](https://github.com/WyattAu/estate-integration/actions/workflows/ci.yml)
 
 **Spreadsheet formula language: tokenizer, Pratt parser, AST, evaluator
 core. Excel-compatible function semantics.**
