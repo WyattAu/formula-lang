@@ -1,6 +1,6 @@
 # formula-lang
 
-**Spreadsheet formula language — tokenizer, Pratt parser, AST, evaluator
+**Spreadsheet formula language: tokenizer, Pratt parser, AST, evaluator
 core. Excel-compatible function semantics.**
 
 `formula-lang` is the estate's **L0 leaf** for spreadsheet work: a pure,
@@ -50,10 +50,10 @@ assert_eq!(evaluate(&e, &sheet).unwrap(), Value::Text("50 unit".to_string()));
 - **Text**: UTF-16 code-unit indexing (`LEN("𐍈")` = 2, like Excel),
   `TRIM` touches only U+0020, `SEARCH` honors `?`/`*`/`~` wildcards while
   `FIND` does not, 32767-unit cell cap on `REPT`.
-- **Dates**: the Lotus leap bug is preserved — serial 60 is the phantom
+- **Dates**: the Lotus leap bug is preserved: serial 60 is the phantom
   1900-02-29, 1970-01-01 is serial 25569. `TEXT` implements the numeric
   subset plus date/time codes.
-- **Volatile functions**: `TODAY`/`NOW`/`OFFSET` — reported by
+- **Volatile functions**: `TODAY`/`NOW`/`OFFSET`: reported by
   `is_volatile`, clocked deterministically by `evaluate_with_clock`.
 
 ## The omitted-argument marker
@@ -72,7 +72,7 @@ and detected with [`is_omitted_arg`]. One documented trade-off: a literal
 - **Total** on hostile input: fuzz-verified (three cargo-fuzz targets,
   ~4.4M executions pre-release). Hostile nesting yields
   `FormulaError::RecursionLimit`, never a stack overflow. The AST's
-  `Drop` and `Display` are iterative — even a 100k-deep tree is safe.
+  `Drop` and `Display` are iterative: even a 100k-deep tree is safe.
 - Zero allocation on the numeric scalar path; text results, aggregate
   operand vectors, and range materialization are the documented edges.
 
@@ -83,12 +83,12 @@ and detected with [`is_omitted_arg`]. One documented trade-off: a literal
 | Tests | 219 (unit + integration + 500-case properties) |
 | Coverage | 95.6% lines (`cargo llvm-cov --all-features`, gate ≥ 90%) |
 | Clippy | `-D warnings` clean (tier-a deny lints) |
-| Fuzz | `tokenize`, `parse`, `parse_eval` — clean runs in CI (30 s each) |
+| Fuzz | `tokenize`, `parse`, `parse_eval`: clean runs in CI (30 s each) |
 | no_std | `thumbv7em-none-eabihf` + native `--no-default-features` |
 
 ## Layer
 
-**L0 — leaf** (see `docs/layers.md` in
+**L0: leaf** (see `docs/layers.md` in
 [WyattAu/engineering-standards](https://github.com/WyattAu/engineering-standards)):
 zero estate-internal dependencies; the only runtime dependency is
 `thiserror` (2.x, `no_std`) plus `libm` for `no_std` float math.

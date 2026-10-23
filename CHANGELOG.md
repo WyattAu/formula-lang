@@ -4,22 +4,22 @@ All notable changes to this project will be documented in this file.
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versioning:
 [SemVer](https://semver.org/).
 
-## [0.1.1] — 2026-10-04
+## [0.1.1]: 2026-10-04
 
 ### Fixed
 
 - Property suite no longer flaky: round-trip properties assume away the
   one lossy AST render (a call whose single argument is the omitted-slot
-  marker — see the `Display` docs). First-propagation RNG streams in CI
+  marker: see the `Display` docs). First-propagation RNG streams in CI
   hit the case the local run missed.
 - Regression tests pinned for the two pre-release fuzz findings
   (iterative-`Drop` leak, render-depth inflation on unary chains).
 - Coverage notes added (`COVERAGE-NOTES.md`); test-count corrections in
   docs. No library-code changes vs 0.1.0.
 
-## [0.1.0] — 2026-10-04
+## [0.1.0]: 2026-10-04
 
-Initial release — L0 leaf, zero estate deps, `no_std` + `alloc`.
+Initial release: L0 leaf, zero estate deps, `no_std` + `alloc`.
 
 ### Added
 
@@ -28,15 +28,15 @@ Initial release — L0 leaf, zero estate deps, `no_std` + `alloc`.
   Excel error literals (case-insensitive), `$`-anchored and row-anchored
   cell references, operators, and a guaranteed `Eof` sentinel. Total:
   every malformed position yields a typed `FormulaError::Tokenize`.
-- **Parser** (`parse`): Pratt parser over the Excel precedence ladder —
+- **Parser** (`parse`): Pratt parser over the Excel precedence ladder:
   comparison < concat < add < mul < **right-associative** power < prefix
-  unary < postfix `%` — including the Excel quirk `-2^2 = 4`. Omitted
+  unary < postfix `%`: including the Excel quirk `-2^2 = 4`. Omitted
   function-argument slots (`F(1,)`, `IF(A1,,5)`) parse via the documented
   `is_omitted_arg` marker. Optional leading `=`. Stack-safe: nesting
   beyond `MAX_DEPTH` (512) returns `FormulaError::RecursionLimit`, never a
   stack overflow (fuzz-verified).
 - **AST** (`Expr`, `BinaryOp`, `UnaryOp`, `CellRef`): the public,
-  inspectable tree — with a stack-safe *iterative* `Drop` (fuzz-found leak
+  inspectable tree: with a stack-safe *iterative* `Drop` (fuzz-found leak
   and overflow fixed) and a precedence-correct **iterative** `Display` /
   `to_formula` whose output re-parses to the identical AST (property-
   tested and fuzz-asserted).
@@ -50,7 +50,7 @@ Initial release — L0 leaf, zero estate deps, `no_std` + `alloc`.
 - **63 built-in functions** with Excel semantics: arithmetic (18),
   statistical (9), logical (8, incl. `TRUE()`/`FALSE()`), text (14,
   UTF-16 indexing like Excel), lookup (`VLOOKUP`, `HLOOKUP`, `INDEX`,
-  `MATCH`, `OFFSET`), volatile date functions (`TODAY`, `NOW` — clocked
+  `MATCH`, `OFFSET`), volatile date functions (`TODAY`, `NOW`: clocked
   via `evaluate_with_clock`), and information (7). `TEXT` implements the
   numeric subset plus date/time codes with the Lotus leap bug preserved
   (serial 60 = the phantom 1900-02-29).
@@ -58,11 +58,11 @@ Initial release — L0 leaf, zero estate deps, `no_std` + `alloc`.
   the crate stores no data; hosts bring the sheet. Row-major range
   layout, documented.
 - **Public date API** (`date` module): Excel serial ↔ civil date, the
-  Lotus bug, `fraction_to_hms`, weekday names — pure integer math.
-- **Fuzz targets**: `tokenize`, `parse`, `parse_eval` (cargo-fuzz) —
+  Lotus bug, `fraction_to_hms`, weekday names: pure integer math.
+- **Fuzz targets**: `tokenize`, `parse`, `parse_eval` (cargo-fuzz):
   totality, position invariants, Display round-trip identity.
 - **Proptest suite**: totality, serialization round-trips and
-  idempotence, commutativity/identity laws, depth-cap typing — 500 cases
+  idempotence, commutativity/identity laws, depth-cap typing: 500 cases
   per property.
 - **Benchmarks** (criterion): scalar/function/lookup eval and parse.
 
