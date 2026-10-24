@@ -1,6 +1,6 @@
 [package]
 name = "formula-lang"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 rust-version = "1.85"
 authors = ["Wyatt Au <wyatt_au@protonmail.com>"]
@@ -8,7 +8,7 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/WyattAu/formula-lang"
 homepage = "https://github.com/WyattAu/formula-lang"
 documentation = "https://docs.rs/formula-lang"
-description = "Spreadsheet formula language — tokenizer, Pratt parser, AST, evaluator core. Excel-compatible function semantics."
+description = "Spreadsheet formula language: tokenizer, Pratt parser, AST, evaluator core. Excel-compatible function semantics."
 readme = "README.md"
 keywords = ["spreadsheet", "formula", "excel", "parser", "evaluator"]
 categories = ["parser-implementations", "no-std"]
